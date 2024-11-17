@@ -137,7 +137,7 @@
 
 - moved code repository to [GitHub](http://github.com/delphes/delphes)
 - moved configuration files from examples to cards directory
-- new event display, with automatic discovery of the object collections, navigation controls, and 3D geometry sketch (for more details, see [EventDisplay](/workbook/event-display))
+- new event display, with automatic discovery of the object collections, navigation controls, and 3D geometry sketch (for more details, see [Event Display](/workbook/event-display))
 - updated FastJet library to 3.1.0
 - added zero suppression to Calorimeter and SimpleCalorimeter modules
 - added SmearTowerCenter configuration parameter to Calorimeter and SimpleCalorimeter modules ([#363](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/363))
