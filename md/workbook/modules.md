@@ -5,16 +5,21 @@
 Performs transverse angular resolution smearing.
 
 - input:
+
   - InputArray
+
 - output:
+
   - OutputArray
+
 - parameters:
+
   - EtaResolutionFormula - eta resolution specified as a function of transverse momentum and pseudo-rapidity
   - PhiResolutionFormula - phi resolution specified as a function of transverse momentum and pseudo-rapidity
 
 ## BTagging
 
-Determines origin of jet, applies b-tagging efficiency (miss identification rate) formulas and sets b-tagging flags
+Determines origin of jet, applies b-tagging efficiency (miss identification rate) formulas and sets b-tagging flags.
 
 - input:
 
@@ -33,11 +38,11 @@ Determines origin of jet, applies b-tagging efficiency (miss identification rate
   - EfficiencyFormula - efficiency (miss identification rate) specified for a PDG code as a function of transverse momentum and pseudo-rapidity
   - BitNumber (default 0)
 
-Starting from version 3.0.7 it is possible to test several (up to 32) b-tagging working points per jet. The BTag variable in the Jet class can store up to 32 bits. If the user specifies BitNumber = 0 in the BTagging module, that particular bit will be stored in the first position. If BitNumber = 1, it will be in the second position, etc ...
+Starting from version 3.0.7 it is possible to test several (up to 32) b-tagging working points per jet. The `BTag` variable in the Jet class can store up to 32 bits. If the user specifies `BitNumber = 0` in the `BTagging` module, that particular bit will be stored in the first position. If `BitNumber = 1`, it will be in the second position, etc.
 
-In order to check whether a jet has passed the b-tagging criteria defined by the BitNumber = i, just do:
+In order to check whether a jet has passed the b-tagging criteria defined by the `BitNumber = i`, just do:
 
-```
+```c++
 Bool_t BtagOk = ( jet->BTag & (1 << i) );
 ```
 
@@ -103,7 +108,7 @@ Fills calorimeter towers for both ECAL and HCAL, performs calorimeter resolution
 
 ## Efficiency
 
-Selects candidates from the InputArray according to the efficiency formula
+Selects candidates from the InputArray according to the efficiency formula.
 
 - input:
 
@@ -119,7 +124,7 @@ Selects candidates from the InputArray according to the efficiency formula
 
 ## EnergySmearing
 
-Performs energy resolution smearing
+Performs energy resolution smearing.
 
 - input:
 
@@ -135,7 +140,7 @@ Performs energy resolution smearing
 
 ## EnergyScale
 
-Applies an energy scale to the specified object collection
+Applies an energy scale to the specified object collection.
 
 - input:
 
@@ -151,7 +156,7 @@ Applies an energy scale to the specified object collection
 
 ## FastJetFinder
 
-Finds jets using the [FastJet]($fastjet$) library, for more information about parameters see chapters 4 and 5 of the [FasJet user manual]($fastjet$/repo/fastjet-doc-3.1.0.pdf)
+Finds jets using the [FastJet]($fastjet$) library, for more information about parameters see chapters 4 and 5 of the [FasJet user manual]($fastjet$/repo/fastjet-doc-3.4.3.pdf).
 
 - input:
 
@@ -189,7 +194,7 @@ To compute N-subjettiness variables (see JHEP 1103:015 (2011) and JHEP 1202:093 
   - beta with wta_kt_axes: anything greater than 0.0 (particularly good for 1.0)
   - beta with onepass_kt_axes or onepass_wta_kt_axes: between 1.0 and 3.0
 
-To apply jet grooming such as Trimming ([arXiv:0912.1342]($arxiv$/0912.1342)) , Pruning ([arXiv:0912.0033]($arxiv$/0912.0033)), and SoftDrop ([arXiv:1402.2657]($arxiv$/1402.2657))
+To apply jet grooming such as Trimming ([arXiv:0912.1342]($arxiv$/0912.1342)) , Pruning ([arXiv:0912.0033]($arxiv$/0912.0033)), and SoftDrop ([arXiv:1402.2657]($arxiv$/1402.2657)).
 
 - parameters:
 
@@ -208,14 +213,14 @@ To apply jet grooming such as Trimming ([arXiv:0912.1342]($arxiv$/0912.1342)) , 
   - SymmetryCutSoftDrop 0.1 (soft-drop)
   - R0SoftDrop 0.8 (soft-drop)
 
-- Example:
+Example:
 
-```
+```tcl
 module FastJetFinder FastJetFinder {
 
- set InputArray EFlowMerger/eflow
+  set InputArray EFlowMerger/eflow
 
- set OutputArray jets
+  set OutputArray jets
 
   set JetAlgorithm 5
   set ParameterR 1.0
@@ -240,20 +245,17 @@ module FastJetFinder FastJetFinder {
 
   set JetPTMin 200.0
 }
-
 ```
 
-- To cluster jets with N-jettiness, use
+To cluster jets with N-jettiness, use
 
-```
+```tcl
 set JetAlgorithm 8
 ```
 
-}}}
-
 ## Hector
 
-Hector takes care of propagating particle within the beam line up to a certain point. (see JINST 2:P09005 (2007))
+Hector takes care of propagating particle within the beam line up to a certain point (see JINST 2:P09005 (2007)).
 
 - input:
 
@@ -294,13 +296,13 @@ This module was written specifically for LHCb, but can be used for any detector.
 
   - EfficiencyFormula (usage: {PID in} {PID out} {formula})
 
-- Example for efficiency map:
+Example of efficiency map:
 
-- Make sure "PID in" and "PID out" have the same charge (e.g {-13} {211} or {-321} {211}) Also, {211} {-13} is equivalent to {-211} {13} (and needs to be written once only...)
+- Make sure {PID in} and {PID out} have the same charge (e.g {-13} {211} or {-321} {211}). Also, {211} {-13} is equivalent to {-211} {13} (and needs to be written only once).
 
 - Make sure that for a given (pt, eta) the sum of probabilities do not exceed 1.
 
-```
+```tcl
 ## --- pions ---
 add EfficiencyFormula {211} {211} {(eta <= 2.0)                           * (0.00) +
                                    (eta > 2.0 && eta <= 5.0) * (pt < 0.8) * (0.00) +
@@ -376,7 +378,7 @@ By default the isolation variable is defined as relative. To use an absolute iso
 
 ## Merger
 
-Merges multiple input arrays into one output array, sums transverse momenta and transverse energies of all input objects
+Merges multiple input arrays into one output array, sums transverse momenta and transverse energies of all input objects.
 
 - input:
 
@@ -390,7 +392,7 @@ Merges multiple input arrays into one output array, sums transverse momenta and 
 
 ## MomentumSmearing
 
-Performs transverse momentum resolution smearing
+Performs transverse momentum resolution smearing.
 
 - input:
 
@@ -406,7 +408,7 @@ Performs transverse momentum resolution smearing
 
 ## ParticlePropagator
 
-Propagates charged and neutral particles from a given vertex to a cylinder defined by its radius, its half-length, centered at (0,0,0) and with its axis oriented along the z-axis
+Propagates charged and neutral particles from a given vertex to a cylinder defined by its radius, its half-length, centered at (0,0,0) and with its axis oriented along the z-axis.
 
 - input:
 
@@ -427,7 +429,7 @@ Propagates charged and neutral particles from a given vertex to a cylinder defin
   - RadiusMax
   - HalfLengthMax
 
-RadiusMax and HalfLengthMax can be used to keep decay products of the long-lived particles. If the decay products appear between Radius and RadiusMax or between HalfLength and HalfLengthMax, then they are kept in the OutputArray collection. These particles aren't propagated. They aren't used for electron/muon/charged particle identification. They can only create energy deposits in the calorimeters.
+RadiusMax and HalfLengthMax can be used to keep decay products of the long-lived particles. If the decay products appear between Radius and RadiusMax or between HalfLength and HalfLengthMax, then they are kept in the OutputArray collection. These particles are not propagated. They are not used for electron/muon/charged particle identification. They can only create energy deposits in the calorimeters.
 
 ## PdgCodeFilter
 
@@ -446,9 +448,9 @@ Removes particles with specific pdg code from given collection.
   - PTMin (min pt of particle to be removed)
   - PdgCode (list of pdg codes to be vetoed)
 
-- Example (to remove neutrinos from stable gen particles):
+Example (to remove neutrinos from stable gen particles):
 
-```
+```tcl
 module PdgCodeFilter NeutrinoFilter {
   set InputArray Delphes/stableParticles
   set OutputArray filteredParticles
@@ -464,7 +466,7 @@ module PdgCodeFilter NeutrinoFilter {
 
 ## TauTagging
 
-Determines origin of jet, applies tau-tagging efficiency (miss identification rate) formulas and sets tau-tagging flags
+Determines origin of jet, applies tau-tagging efficiency (miss identification rate) formulas and sets tau-tagging flags.
 
 - input:
 
@@ -485,14 +487,16 @@ Determines origin of jet, applies tau-tagging efficiency (miss identification ra
 
 ## TreeWriter
 
-Fills ROOT tree branches
+Fills ROOT tree branches.
 
 - parameters:
+
   - Branch - list of input arrays, corresponding ROOT tree branches and ROOT classes
 
 ## UniqueObjectFinder
 
-Finds uniquely identified photons, electrons, taus and jets
+Finds uniquely identified photons, electrons, taus and jets.
 
 - parameters:
+
   - InputArray - list of input and output arrays there earlier arrays take precedence over later ones

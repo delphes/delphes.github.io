@@ -1,20 +1,20 @@
 # Module System
 
-Delphes module system is inspired by the [Folders and Tasks chapter](https://root.cern.ch/root/htmldoc/guides/users-guide/ROOTUsersGuide.html#folders-and-tasks) from the ROOT Users Guide and it's based on the [TTask](http://root.cern.ch/root/html/TTask.html) and [TFolder](http://root.cern.ch/root/html/TFolder.html) classes.
+Delphes module system is inspired by the [Folders and Tasks chapter](https://root.cern/root/htmldoc/guides/users-guide/ROOTUsersGuide.html#folders-and-tasks) from the ROOT Users Guide and it's based on the [TTask](https://root.cern/doc/master/classTTask.html) and [TFolder](https://root.cern/doc/master/classTFolder.html) classes.
 
-All Delphes modules consume and produce [TObjArrays](http://root.cern.ch/root/html/TObjArray.html) of [Candidates](/workbook/candidate).
+All Delphes modules consume and produce [TObjArrays](https://root.cern/doc/master/classTObjArray.html) of [Candidates](/workbook/candidate).
 
 Every Delphes module has a corresponding `TFolder` that is used to store `TObjArrays` produced by this module. Any Delphes module can access `TObjArrays` produced by other Delphes modules using `ImportArray("ModuleInstanceName/arrayName")` method.
 
 The contents of all Delphes `TFolders` and `TObjArrays` is browsable. All the modules are accessible from the `"/Delphes/Delphes"` folder and all the `TObjArrays` are accessible from the `"/Delphes/Export"` folder.
 
-![](/img/delphes_folders.png)
+![Delphes folders](/img/delphes_folders.png)
 
 Additional classes `ExRootTask` and `DelphesModule` has been developed to provide frequently used services for Delphes. All Delphes modules inherit from `DelphesModule`.
 
 Here is an example of a module declaration:
 
-```
+```c++
 #ifndef ExampleModule_h
 #define ExampleModule_h
 
@@ -59,7 +59,7 @@ private:
 
 and here is its implementation:
 
-```
+```c++
 #include "modules/ExampleModule.h"
 
 #include "classes/DelphesClasses.h"

@@ -4,18 +4,18 @@
 
 To successfully build Delphes the following prerequisite packages should be installed:
 
-- [ROOT Data Analysis Framework](http://root.cern.ch/drupal/content/downloading-root)
-- [Tcl scripting language](http://www.tcl.tk)
+- [ROOT Data Analysis Framework](https://root.cern/install)
+- [Tcl scripting language](https://www.tcl.tk)
 
 Then configure your environment for ROOT and GCC. If you are on lxplus, you can do it this way:
 
-```
+```sh
 source /cvmfs/sft.cern.ch/lcg/views/LCG_105/x86_64-el9-gcc12-opt/setup.sh
 ```
 
-Finally download and build Delphes:
+Finally, download and build Delphes:
 
-```
+```sh
 wget http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.0.tar.gz
 tar -zxf Delphes-3.5.0.tar.gz
 
@@ -25,7 +25,7 @@ make -j 4
 
 Or, to install with CMake
 
-```
+```sh
 cd Delphes-3.5.0
 mkdir build
 cd build
@@ -38,7 +38,7 @@ make -j 4 install
 
 When running Delphes without parameters or when supplying an invalid command line, the following message will be shown:
 
-```
+```sh
 ./DelphesHepMC3
  Usage: DelphesHepMC3 config_file output_file [input_file(s)]
  config_file - configuration file in Tcl format,
@@ -49,54 +49,59 @@ When running Delphes without parameters or when supplying an invalid command lin
 
 Running Delphes with HepMC input files:
 
-```
+```sh
 ./DelphesHepMC3 cards/delphes_card_CMS.tcl output.root input.hepmc
 ```
 
 Running Delphes with STDHEP (XDR) input files:
 
-```
+```sh
 ./DelphesSTDHEP cards/delphes_card_CMS.tcl delphes_output.root input.hep
 ```
 
 Running Delphes with LHEF input files:
 
-```
+```sh
 ./DelphesLHEF cards/delphes_card_CMS.tcl delphes_output.root input.lhef
 ```
 
 Running Delphes with files accessible via HTTP:
 
-```
-curl http://cp3.irmp.ucl.ac.be/~demin/test.hepmc3.gz | gunzip | ./DelphesHepMC3 cards/delphes_card_CMS.tcl delphes_output.root
+```sh
+curl https://cp3.irmp.ucl.ac.be/~demin/test.hepmc3.gz | gunzip | ./DelphesHepMC3 cards/delphes_card_CMS.tcl delphes_output.root
 ```
 
 ## Analyzing Delphes Output
 
-Delphes output can be analyzed with the ROOT data analysis framework. This can be done in simple cases with TTree::Draw, or with macros for more advanced cases. Examples and mini analysis frameworks are provided in C++ (using ExRootAnalysis) and Python (using [DelphesAnalysis](/workbook/delphes-analysis)).
+Delphes output can be analyzed with the ROOT data analysis framework. This can be done in simple cases with `TTree::Draw`, or with macros for more advanced cases. Examples and mini analysis frameworks are provided in C++ (using ExRootAnalysis) and Python (using [DelphesAnalysis](/workbook/delphes-analysis)).
 
 ### Simple analysis using TTree::Draw
 
 Start ROOT and load Delphes shared library:
 
-```
+```sh
 root
+```
+
+```c++
 gSystem->Load("libDelphes");
 ```
 
 Open ROOT tree file and do some basic analysis using Draw or TBrowser:
 
-```
+```c++
 TFile *f = TFile::Open("delphes_output.root");
 f->Get("Delphes")->Draw("Electron.PT");
 TBrowser browser;
 ```
 
-Note 1: Delphes - tree name, it can be learnt e.g. from TBrowser
+Notes:
 
-Note 2: Electron - branch name; PT - variable (leaf) of this branch
+- `Delphes` is the tree name. It can be learned e.g. from `TBrowser`.
+- `Electron` is the branch name.
+- `PT` is a variable (leaf) of this branch.
 
-Complete description of all branches can be found at [RootTreeDescription](/workbook/root-tree-description)
+Complete description of all branches can be found at [this link](/workbook/root-tree-description).
 
 ### Macro-based analysis
 
@@ -104,15 +109,18 @@ The [examples]($source$/examples) directory contains a basic ROOT analysis macro
 
 Here are commands to run this macro:
 
-```
+```sh
 root
+```
+
+```c++
 gSystem->Load("libDelphes");
 .X examples/Example1.C("delphes_output.root");
 ```
 
 And here is the full source code of this macro:
 
-```
+```c++
 void Example1(const char *inputFile)
 {
   gSystem->Load("libDelphes");
@@ -174,11 +182,11 @@ void Example1(const char *inputFile)
 
 ### More advanced macro-based analysis
 
-The [examples]($source$/examples) directory contains a ROOT macro called [Example2.C]($source$/examples/Example2.C) demonstrating how to use class **`ExRootTreeReader`** to access data and class **`ExRootResult`** to manage histograms booking and output.
+The [examples]($source$/examples) directory contains a ROOT macro called [Example2.C]($source$/examples/Example2.C) demonstrating how to use class `ExRootTreeReader` to access data and class `ExRootResult` to manage histograms booking and output.
 
 This macro can be run with the following command:
 
-```
+```sh
 root -l examples/Example2.C'("delphes_output.root")'
 ```
 

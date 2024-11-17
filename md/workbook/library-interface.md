@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Delphes can be used as a library and be included in a third party application. To do so, simply download and compile Delphes as explained in the [Quick Tour](/workbook/quick-tour).
+Delphes can be used as a library and be included in a third party application. To do so, download and compile Delphes as explained in the [Quick Tour](/workbook/quick-tour).
 
 This creates among other files the `libDelphes.so` library that can be dynamically linked to any C++ binary. Header files are located in the modules and classes subdirectories:
 
@@ -14,7 +14,7 @@ This creates among other files the `libDelphes.so` library that can be dynamical
 
 The code below shows the basic ingredients to build a standalone application using Delphes. In that template, the `ReadEvent`, `ReadParticle`, `ConvertInput` and `ConvertOutput` functions should be implemented by the user.
 
-```
+```c++
 #include <stdexcept>
 #include <iostream>
 
@@ -160,8 +160,4 @@ void ConvertOutput(Delphes *modularDelphes)
 
 ## Complete example
 
-A fully functional application using the Delphes library can be found in
-
-```
-readers/DelphesSTDHEP.cpp
-```
+A fully functional application using the Delphes library can be found in [readers/DelphesSTDHEP.cpp]($source$/readers/DelphesSTDHEP.cpp).

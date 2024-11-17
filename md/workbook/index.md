@@ -1,4 +1,4 @@
-# Workbook Contents
+# Workbook
 
 Here is a list of the contents of the Delphes Workbook.
 
@@ -16,5 +16,5 @@ Here is a list of the contents of the Delphes Workbook.
 1. [Running Delphes with External FastJet](/workbook/external-fastjet) - how Delphes can be run with an external FastJet installation.
 1. [Reading CMS ROOT Files](/workbook/reading-cms-files) - how Delphes can be run on the generator events stored in CMS ROOT files.
 1. [Running Delphes with Pile-Up](/workbook/pile-up) - how Delphes can be run with pile-up events.
-1. [Running Delphes with Pythia8](/workbook/pythia8) - how Delphes can be run with Pythia8
+1. [Running Delphes with Pythia8](/workbook/pythia8) - how Delphes can be run with Pythia8.
 1. [Using DelphesAnalysis](/workbook/delphes-analysis) to write analysis code in Python.

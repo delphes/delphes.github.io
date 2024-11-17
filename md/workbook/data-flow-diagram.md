@@ -2,7 +2,7 @@
 
 Complete data-flow diagram can be generated from a configuration file with the following command:
 
-```
+```sh
 ./doc/data_flow.sh cards/delphes_card_CMS.tcl
 ```
 
@@ -10,7 +10,7 @@ This script requires GraphViz to be installed.
 
 Here is a simplified data-flow diagram of the Delphes fast simulation.
 
-![](/img/delphes_diagram.png)
+![data-flow diagram](/img/delphes_diagram.png)
 
 - Event files coming from external Monte-Carlo generators are first processed by a reader stage.
 - Pile-up events are then overlapped onto the hard scattering event.

@@ -6,19 +6,19 @@ It is possible to run Delphes on the generator events stored in CMS ROOT files (
 
 More details on the generator event format can be found at
 
-[https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkbookGenParticleCandidate](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGenParticleCandidate)
+<https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookGenParticleCandidate>
 
 ## Setting up CMSSW Computing Environment
 
 The instructions on how to setup CMSSW work area and runtime environment can be found at
 
-[https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkbookSetComputerNode](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookSetComputerNode)
+<https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookSetComputerNode>
 
 ## Building Delphes and DelphesCMSFWLite
 
 Commands to download and build Delphes:
 
-```
+```sh
 export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 
 wget http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.0.tar.gz
@@ -30,9 +30,9 @@ make -j 4
 
 ## Running DelphesCMSFWLite
 
-When running **`DelphesCMSFWLite`** without parameters or when supplying an invalid command line, the following message will be shown:
+When running `DelphesCMSFWLite` without parameters or when supplying an invalid command line, the following message will be shown:
 
-```
+```sh
 ./DelphesCMSFWLite
  Usage: DelphesCMSFWLite config_file output_file input_file(s)
  config_file - configuration file in Tcl format,
@@ -42,6 +42,6 @@ When running **`DelphesCMSFWLite`** without parameters or when supplying an inva
 
 Running Delphes with CMS ROOT input files:
 
-```
+```sh
 ./DelphesCMSFWLite cards/delphes_card_CMS.tcl delphes_output.root input.root
 ```
