@@ -8,7 +8,7 @@
 - updated FastJet library to 3.3.4 and FastJet Contrib library to 1.045
 - removed zero mass assumption for all tracks
 - added support for HepMC3 format
-- added particle-density dependence to formula parameterization (thanks to Roberto Preghenella)
+- added particle-density dependence to formula parametrization (thanks to Roberto Preghenella)
 - added DecayFilter module for LLP decay in flight
 - added PFcandidate class to ROOT tree writer
 - added neutral and charged energy fraction to jets
@@ -21,7 +21,7 @@
 
 23 August 2019: [Delphes 3.4.2](http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.4.2.tar.gz)
 
-- added DenseTrackFilter for modelling tracking inefficiencies in boosted, dense environments
+- added DenseTrackFilter for modeling tracking inefficiencies in boosted, dense environments
 - added detector cards for CLIC, HL-LHC and IDEA detectors
 - added muons to Tower collection used for jets reconstruction and MET calculation in the ATLAS card ([#1118](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/1118))
 - added Weight branch to HepMC
@@ -74,7 +74,7 @@
 24 August 2016: [Delphes 3.3.3](http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.3.3.tar.gz)
 
 - improved compatibility with ROOT >= 6.04
-- removed test of praticle stability based on ROOT pdgtable ([#347](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/347), [#753](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/753), [#821](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/821), [#855](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/855))
+- removed test of particle stability based on ROOT pdgtable ([#347](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/347), [#753](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/753), [#821](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/821), [#855](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/855))
 - fixed bugs in DelphesCMSFWLite
 - fixed bugs in PUPPI
 - fixed compiler and linker flags for Pythia8
@@ -83,7 +83,7 @@
 - added jet merging to DelphesPythia8 based on Pythia8 main32.cc
 - added UseMiniCone option in Isolation module
 - added RecoPuFilter module
-- added back OldCalorimeter for CheckMate bwd compatibilty ([#591](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/591))
+- added back OldCalorimeter for CheckMate bwd compatibility ([#591](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/591))
 - updated tracking and calorimeter resolution in CMS cards
 
 16 December 2015: [Delphes 3.3.2](http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.3.2.tar.gz)
@@ -106,10 +106,10 @@
 9 October 2015: [Delphes 3.3.0](http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.3.0.tar.gz)
 
 - improved energy-flow algorithm for high momentum
-- updated b-tagging parameterisations to recent ATLAS and CMS publications
+- updated b-tagging parametrization to recent ATLAS and CMS publications
 - updated FastJet library to 3.1.3
 - updated Nsubjettiness library to 2.2.1
-- added a detector card for the ILD detector (for ILC) based on [http://arxiv.org/abs/1306.6329]($arxiv$/1306.6329)
+- added a detector card for the ILD detector (for ILC) based on [arXiv:1306.6329]($arxiv$/1306.6329)
 - adapted examples, EventDisplay, DelphesFormula and DelphesTF2 to ROOT 6.04
 - fixed tau-tagging for events without tau (thanks to Sho Iwamoto)
 - fixed UniqueObjectFinder ([#728](https://cp3.irmp.ucl.ac.be/projects/delphes/ticket/728))
