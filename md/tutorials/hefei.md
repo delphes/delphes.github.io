@@ -6,25 +6,25 @@ To successfully run this tutorial the following prerequisite packages should be 
 
 - gcc/tcl:
 
-For linux users gcc/tcl should be already installed. For Mac users you should install XCode.
+For Linux users gcc/tcl should be already installed. For Mac users you should install XCode.
 
 - ROOT:
 
-can be downloaded from <https://root.cern.ch/downloading-root> Go on latest release, and download a version under "Binary distributions".
+Can be downloaded from <https://root.cern/install/all_releases>. Go to the latest release, and download a version under "Binary distributions".
 
 - Pythia8:
 
 following instructions from here (or using the Pythia8 installation in MadGraph):
 
-[/workbook/pythia8](/workbook/pythia8)
+<https://delphes.github.io/workbook/pythia8>
 
-The solutions for all the exercises can be found in the attachment file (suggestion: download file locally).
+The solutions for all the exercises can be found in [tutorial_solution.txt](/etc/tutorial_solution.txt).
 
 ## I) Event generation with Pythia8 + Delphes sample
 
 This exercise will teach how to configure the Pythia8 event generator for a simple production of e+e- -> ZH events. Next, you will generate events and simulate the detector with the DelphesPythia8 executable.
 
-1\) Create a Pythia8 configuration card that generates N=10k events of ee->Zh->mumu at sqrt(s)=240 GeV (call it "examples/Pythia8/config_ee_zh_zmumu.cmd").
+1\) Create a Pythia8 configuration card that generates N=10k events of ee->Zh->mumu at sqrt(s)=240 GeV (call it `examples/Pythia8/config_ee_zh_zmumu.cmd`).
 
 ```
 Main:numberOfEvents = 10000         ! number of events to generate
@@ -41,7 +41,7 @@ HiggsSM:ffbar2HZ = on
 23:onIfAny = 13 -13
 ```
 
-2\) Produce Delphes events using the above Pythia8 configuration (this command should run Pythia and Delphes on the fly!), using the CEPC detector card "cards/delphes_card_CEPC.tcl"
+2\) Produce Delphes events using the above Pythia8 configuration (this command should run Pythia and Delphes on the fly), using the CEPC detector card `cards/delphes_card_CEPC.tcl`
 
 ```
 ./DelphesPythia8 cards/delphes_card_CEPC.tcl examples/Pythia8/config_ee_zh_zmumu.cmd delphes_ee_zh_zmumu.root
@@ -57,9 +57,9 @@ gSystem->Load("libDelphes");
 TBrowser t;
 ```
 
-Note: Most objects are described in terms of pp specific variables (PT, Eta, Phi). This is simply for historical reasons (and makes of course no difference whatsoever) since Delphes was developed originally as a tool for LHC physics. To plot ee-like variables, one needs to write the translation (or make use of the very useful TLorentzVector of ROOT, see part III).
+Note: Most objects are described in terms of pp specific variables (`PT`, `Eta`, `Phi`). This is simply for historical reasons (and makes of course no difference whatsoever) since Delphes was developed originally as a tool for LHC physics. To plot ee-like variables, one needs to write the translation (or make use of the very useful `TLorentzVector` of ROOT, see part III).
 
-2\) Interactively draw the muon multiplicity and the jet multiplicity. You first have to double-click on the root file icon in the TBrowser. Do you understand these distributions?
+2\) Interactively draw the muon multiplicity and the jet multiplicity. You first have to double-click on the root file icon in the `TBrowser`. Do you understand these distributions?
 
 ```
 Delphes->Draw("Muon_size");
@@ -70,13 +70,13 @@ Delphes->Draw("Jet_size");
 
 1\) Write down the formula for the recoil Higgs mass.
 
-2\) You can find a simple analysis macro in "example/Example1.py". It can be executed like this:
+2\) You can find a simple analysis macro in `example/Example1.py`. It can be executed like this:
 
 ```
 python examples/Example1.py delphes_ee_zh_zmumu.root out.root
 ```
 
-This Example1.py macro does not produce anything interesting here (it most likely produce an empty plot). The above command is simply shown as an example for how to run a macro. You should open Example1.py with a text editor, and write a small analysis that first selects events with two muons and then reconstructs and plot the recoil Higgs mass using the formula found in III.1)
+This `Example1.py` macro does not produce anything interesting here (it most likely produce an empty plot). The above command is simply shown as an example for how to run a macro. You should open `Example1.py` with a text editor, and write a small analysis that first selects events with two muons and then reconstructs and plot the recoil Higgs mass using the formula found in III.1)
 
 Solution:
 
@@ -144,7 +144,7 @@ You have now produced a Delphes simulated event with the hypothetical CEPC defau
 
 1\) Can you think of 2 detector parameters that determine and drive the sensitivity of the Higgs recoil measurement in this particular final state?
 
-2\) Identify where they are configured in the delphes detector card.
+2\) Identify where they are configured in the Delphes detector card.
 
 3\) Create two new detector configurations by degrading these two parameters by a sizable factor.
 

@@ -8,28 +8,28 @@ To successfully run this tutorial the Delphes virtual machine should be installe
 
 If you have successfully produced Pythia8 event files in the MadGraph and Parton Shower lecture (Admir Greljo, Ilaria Brivio), copy (or move) the pp->ll (SM and BSM) into the Delphes directory Delphes-3.5.0
 
-FIXME: find out how these files where named during tutorial
+FIXME: find out how these files were named during tutorial
 
 If not you can download the files from here (but it might take a while):
 
 ```
 cd Delphes-3.5.0
-curl -o pp_ll_sm.hepmc  https://cernbox.cern.ch/index.php/s/4rnlQ0bybBYvLTS/download
-curl -o pp_ll_bsm.hepmc  https://cernbox.cern.ch/index.php/s/Y71ZOw8ZiWWE0p2/download
+wget -O pp_ll_sm.hepmc https://cernbox.cern.ch/index.php/s/4rnlQ0bybBYvLTS/download
+wget -O pp_ll_bsm.hepmc https://cernbox.cern.ch/index.php/s/Y71ZOw8ZiWWE0p2/download
 ```
 
-The solution for these (simple) exercises can be found in the attached file tutorial_solution.txt, located at the bottom of this page. Consult it if you are stuck but before try to solve the question by yourself.
+The solution for these (simple) exercises can be found in the file [tutorial_solution_1.txt](/etc/tutorial_solution_1.txt). Consult it if you are stuck but before try to solve the question by yourself.
 
 ## I) Produce Delphes root files
 
-In this section you will run Delphes Fast Detector simulation using the default CMS card. Delphes will produce a ROOT file starting from the hepmc format produced by MG5+Pythia8.
+In this section you will run Delphes Fast Detector simulation using the default CMS card. Delphes will produce a ROOT file starting from the HepMC format produced by MG5+Pythia8.
 
-Produce two delphes output files, one for the sample SM and one for the BSM sample (`pp_ll_sm.root` and `pp_ll_bsm.root`), using the `DelphesHepMC3` executable and the CMS configuration card `cards/delphes_card_CMS.tcl`.
+Produce two delphes output files, one for the sample SM and one for the BSM sample (`pp_ll_sm.root` and `pp_ll_bsm.root`), using the `DelphesHepMC2` executable and the CMS configuration card `cards/delphes_card_CMS.tcl`.
 
-Hint: The command to produce a Delphes output
+Hint: the command to produce a Delphes output
 
 ```
-./DelphesHepMC3 cards/delphes_card.tcl output.root input.hepmc
+./DelphesHepMC2 cards/delphes_card.tcl output.root input.hepmc
 ```
 
 ## II) Simple Interactive Tree analysis
@@ -56,7 +56,7 @@ We will now focus solely on the BSM sample `pp_ll_bsm.root` in the mu mu final s
 
 1\) Can you think of 2 detector parameters that determine and drive the sensitivity of the Z' -> mu mu search?
 
-2\) Identify where they are configured in the delphes detector card `cards/delphes_card_CMS.tcl`.
+2\) Identify where they are configured in the Delphes detector card `cards/delphes_card_CMS.tcl`.
 
 3\) Create two new detector configurations `cards/delphes_card_CMS_mod1.tcl` and `cards/delphes_card_CMS_mod2.tcl` by degrading these two parameters by a sizable factor.
 
