@@ -1,0 +1,179 @@
+I.1)
+
+- number fo events:
+
+Main:numberOfEvents = 1000
+
+- beam type:
+
+Beams:idA = 2212                   ! first beam, p = 2212, pbar = -2212
+Beams:idB = 2212                   ! second beam, p = 2212, pbar = -2212
+
+- center of mass energy:
+
+Beams:eCM = 14000.
+
+- physics process
+
+Top:gg2ttbar = on                  ! g g -> t tbar
+Top:qqbar2ttbar = on               ! q qbar -> t tbar
+
+
+I.2)
+
+Pythia8 card: examples/Pythia8/config_ee_zh_zmumu.cmd
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Main:numberOfEvents = 10000         ! number of events to generate
+
+Beams:idA = 11                   ! first beam, e- = -11
+Beams:idB = -11                  ! second beam, e+ = 11
+Beams:eCM = 240.                 ! CM energy of collision
+
+! Higgsstrahlung process
+HiggsSM:ffbar2HZ = on
+
+! 5) Force the Z decays to muons
+23:onMode = off
+23:onIfAny = 13 -13
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+I.3)
+
+./DelphesPythia8 cards/delphes_card_CEPC.tcl examples/Pythia8/config_ee_zh_zmumu.cmd delphes_ee_zh_zmumu.root
+
+
+II.2)
+
+Delphes->Draw("Muon_size");
+Delphes->Draw("Jet_size");
+
+III.1)
+
+m_recoil = sqrt( (sqrt(s) - E_ll)^2 - p_ll^2 )
+
+III.2)
+
+# Recoil Mass macro
+#!/usr/bin/env python
+
+import sys
+import ROOT
+
+if len(sys.argv) < 2:
+  print " Usage: python examples/MissingMass.py delphes_ee_zh_zmumu.root hist_mrec.root"
+  sys.exit(1)
+
+ROOT.gSystem.Load("libDelphes")
+
+try:
+  ROOT.gInterpreter.Declare('#include "classes/SortableObject.h"')
+  ROOT.gInterpreter.Declare('#include "classes/DelphesClasses.h"')
+  ROOT.gInterpreter.Declare('#include "external/ExRootAnalysis/ExRootTreeReader.h"')
+except:
+  pass
+
+inputFile = sys.argv[1]
+outputFile = sys.argv[2]
+
+# Create chain of root trees
+chain = ROOT.TChain("Delphes")
+chain.Add(inputFile)
+
+# Create object of class ExRootTreeReader
+treeReader = ROOT.ExRootTreeReader(chain)
+numberOfEntries = treeReader.GetEntries()
+
+# Get pointers to branches used in this analysis
+branchMuon = treeReader.UseBranch("Muon")
+
+# Book histograms
+histMass = ROOT.TH1F("mass", "M_{recoil} [GeV]", 60, 100.0, 160.0)
+
+ptot = ROOT.TLorentzVector(0.,0.,0.,240.)
+# Loop over all events
+for entry in range(0, numberOfEntries):
+  # Load selected branches with data from specified event
+  treeReader.ReadEntry(entry)
+
+  # If event contains at least 2 muons
+  if branchMuon.GetEntries() > 1:
+
+    mu1 = branchMuon.At(0)
+    mu2 = branchMuon.At(1)
+
+    pll = mu1.P4() + mu2.P4()
+    ph = ptot - pll
+
+    histMass.Fill(ph.M())
+
+out_root = ROOT.TFile(outputFile,"RECREATE")
+histMass.Write()
+
+
+IV.1)
+
+The two parameters are the muon momentum resolution and the reconstruction efficiency.
+One can for instance worsen both of them by replacing the existing parameterisations by:
+
+IV.2)
+
+The relevant modules are called "MuonMomentumSmearing" and "MuonTrackingEfficiency"
+
+IV.3)
+
+
+###############################
+# Momentum resolution for muons
+###############################
+
+module MomentumSmearing MuonMomentumSmearing {
+  set InputArray MuonTrackingEfficiency/muons
+  set OutputArray muons
+
+  # set ResolutionFormula {resolution formula as a function of eta and pt}
+
+   # resolution formula for charged hadrons
+  set ResolutionFormula {    (abs(eta) <= 1.0)                   * 10 * sqrt(0.001^2 + pt^2*1.e-5^2) +
+                             (abs(eta) > 1.0 && abs(eta) <= 3.0) * 10 * sqrt(0.01^2 + pt^2*1.e-4^2)}
+
+}
+
+##########################
+# Muon tracking efficiency
+##########################
+
+module Efficiency MuonTrackingEfficiency {
+  set InputArray ParticlePropagator/muons
+  set OutputArray muons
+
+  # set EfficiencyFormula {efficiency formula as a function of eta and pt}
+
+  # tracking efficiency formula for muons
+  set EfficiencyFormula {                                                    (pt <= 0.1)   * (0.00) +
+                                           (abs(eta) <= 3.0)               * (pt > 0.1)    * (0.80) +
+                                           (abs(eta) >  3.0)                               * (0.00)}
+}
+
+
+IV.4)
+
+./DelphesPythia8 cards/delphes_card_CEPC_mod.tcl examples/Pythia8/config_ee_zh_zmumu.cmd delphes_ee_zh_zmumu_mod.root
+./DelphesPythia8 cards/delphes_card_CEPC_mod2.tcl examples/Pythia8/config_ee_zh_zmumu.cmd delphes_ee_zh_zmumu_mod2.root
+
+
+root -l hist_mrec.root hist_mrec_mod.root hist_mrec_mod2.root
+
+((TH1F *)_file0->Get("mass"))->SetLineColor(kGreen+1);
+((TH1F *)_file1->Get("mass"))->SetLineColor(kBlue);
+((TH1F *)_file2->Get("mass"))->SetLineColor(kRed);
+
+((TH1F *)_file0->Get("mass"))->SetLineWidth(3);
+((TH1F *)_file1->Get("mass"))->SetLineWidth(3);
+((TH1F *)_file2->Get("mass"))->SetLineWidth(3);
+
+_file0->Get("mass")->Draw();
+_file1->Get("mass")->Draw("SAME");
+_file2->Get("mass")->Draw("SAME");

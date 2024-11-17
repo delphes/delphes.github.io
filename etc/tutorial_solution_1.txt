@@ -1,0 +1,260 @@
+I. =============================================================================
+
+
+./DelphesHepMC cards/delphes_card_CMS.tcl pp_ll_bsm.root pp_ll_bsm.hepmc
+./DelphesHepMC cards/delphes_card_CMS.tcl pp_ll_sm.root pp_ll_sm.hepmc
+
+
+
+II. ============================================================================
+
+1) -----------------------------------------------------------------------------
+
+root
+gSystem->Load("libDelphes");
+TFile *f = TFile::Open("pp_ll_sm.root");
+TBrowser t;
+
+... in the browser double-click on the file name pp_ll_sm.root and then on the
+on the Delphes tree. Double-click on the Electron branch and then on Electron.PT
+
+2) -----------------------------------------------------------------------------
+
+root
+gSystem->Load("libDelphes");
+TFile *f = TFile::Open("pp_ll_sm.root");
+TCanvas c1
+f->Get("Delphes")->Draw("Muon_size");
+TCanvas c2
+f->Get("Delphes")->Draw("Electron_size");
+
+Explanation:
+
+We are looking at Drell-Yan event pp-> ee/mumu.
+The multiplicity of electrons and muons should be either 0 or 2. However due to
+reconstruction/detector acceptance in-efficiencies we see some events with only
+1 lepton.
+
+3) -----------------------------------------------------------------------------
+
+root
+gSystem->Load("libDelphes");
+TFile *fsm = TFile::Open("pp_ll_sm.root");
+TFile *fbsm = TFile::Open("pp_ll_bsm.root");
+
+
+
+TCanvas c1
+fbsm->Get("Delphes")->Draw("Electron[0].PT");
+TCanvas c2
+fsm->Get("Delphes")->Draw("Electron[0].PT");
+
+TCanvas c3
+fbsm->Get("Delphes")->Draw("Electron[0].Eta");
+TCanvas c4
+fsm->Get("Delphes")->Draw("Electron[0].Eta");
+
+
+Explanation:
+
+The BSM sample contains leptons much higher pT and these are necessarily
+produced at central rapidities.
+
+III.============================================================================
+
+III.1) -------------------------------------------------------------------------
+
+#!/usr/bin/env python
+
+import sys
+import ROOT
+
+if len(sys.argv) < 2:
+  print " Usage: python examples/InvariantMass.py pp_ll_sm.root histo_sm.root"
+  sys.exit(1)
+
+ROOT.gSystem.Load("libDelphes")
+
+try:
+  ROOT.gInterpreter.Declare('#include "classes/SortableObject.h"')
+  ROOT.gInterpreter.Declare('#include "classes/DelphesClasses.h"')
+  ROOT.gInterpreter.Declare('#include "external/ExRootAnalysis/ExRootTreeReader.h"')
+except:
+  pass
+
+inputFile = sys.argv[1]
+outputFile = sys.argv[2]
+
+# Create chain of root trees
+chain = ROOT.TChain("Delphes")
+chain.Add(inputFile)
+
+# Create object of class ExRootTreeReader
+treeReader = ROOT.ExRootTreeReader(chain)
+numberOfEntries = treeReader.GetEntries()
+
+# Get pointers to branches used in this analysis
+branchMuon     = treeReader.UseBranch("Muon")
+branchElectron = treeReader.UseBranch("Electron")
+
+# Book histograms
+histMass_mumu_sm = ROOT.TH1F("mass_mumu_sm", "m [GeV]", 60, 60.0, 120.0)
+histMass_mumu_bsm = ROOT.TH1F("mass_mumu_bsm", "m [GeV]", 60, 1000.0, 3000.0)
+
+histMass_ee_sm = ROOT.TH1F("mass_ee_sm", "m [GeV]", 60, 60.0, 120.0)
+histMass_ee_bsm = ROOT.TH1F("mass_ee_bsm", "m [GeV]", 60, 1000.0, 3000.0)
+
+# Loop over all events
+for entry in range(0, numberOfEntries):
+      # Load selected branches with data from specified event
+      treeReader.ReadEntry(entry)
+
+      # If event contains at least 2 muons
+      if branchMuon.GetEntries() > 1:
+
+            mu1 = branchMuon.At(0)
+            mu2 = branchMuon.At(1)
+            ptot = mu1.P4() + mu2.P4()
+
+            histMass_mumu_sm.Fill(ptot.M())
+            histMass_mumu_bsm.Fill(ptot.M())
+
+      # If event contains at least 2 muons
+      if branchElectron.GetEntries() > 1:
+
+            ele1 = branchElectron.At(0)
+            ele2 = branchElectron.At(1)
+            ptot = ele1.P4() + ele2.P4()
+
+            histMass_ee_sm.Fill(ptot.M())
+            histMass_ee_bsm.Fill(ptot.M())
+
+
+out_root = ROOT.TFile(outputFile,"RECREATE")
+
+histMass_mumu_sm.Write()
+histMass_mumu_bsm.Write()
+histMass_ee_sm.Write()
+histMass_ee_bsm.Write()
+
+
+III.2) -------------------------------------------------------------------------
+
+python examples/InvariantMass.py pp_ll_sm.root histo_sm.root
+python examples/InvariantMass.py pp_ll_bsm.root histo_bsm.root
+
+III.3) -------------------------------------------------------------------------
+
+root -l histo_sm.root
+
+((TH1F *)_file0->Get("mass_mumu_sm"))->SetLineColor(kRed+1);
+((TH1F *)_file0->Get("mass_mumu_sm"))->SetLineWidth(3);
+((TH1F *)_file0->Get("mass_ee_sm"))->SetLineColor(kBlue);
+((TH1F *)_file0->Get("mass_ee_sm"))->SetLineWidth(3);
+
+_file0->Get("mass_mumu_sm")->Draw();
+_file0->Get("mass_ee_sm")->Draw("SAME");
+
+Explanation:
+
+At low pT the muon and electron resolution is dominated by the tracker. Muon
+resolution is better since less interaction with material (brehmstralung)
+
+III.4) -------------------------------------------------------------------------
+
+root -l histo_bsm.root
+
+((TH1F *)_file0->Get("mass_mumu_bsm"))->SetLineColor(kRed+1);
+((TH1F *)_file0->Get("mass_mumu_bsm"))->SetLineWidth(3);
+((TH1F *)_file0->Get("mass_ee_bsm"))->SetLineColor(kBlue);
+((TH1F *)_file0->Get("mass_ee_bsm"))->SetLineWidth(3);
+
+_file0->Get("mass_ee_bsm")->Draw();
+_file0->Get("mass_mumu_bsm")->Draw("SAME");
+
+Explanation:
+
+At high pT the muon resolution is worse because muon track is essentially a
+straight line, and the pT is measured from the curvature. Conversely, electrons
+are well measured at high pT because their resolution is dominated by the calori-
+meter measurement (where sigma E/E ~ cst)
+
+
+IV.=============================================================================
+
+IV.1) --------------------------------------------------------------------------
+
+The two parameters are the muon momentum resolution and the reconstruction efficiency.
+One can for instance worsen both of them by replacing the existing parameterisations by:
+
+IV.2) --------------------------------------------------------------------------
+
+The relevant modules are called "MuonMomentumSmearing" and "MuonTrackingEfficiency"
+
+IV.3) --------------------------------------------------------------------------
+
+
+--> to decrease the muon efficiency we can replace the MuonTrackingEfficiency
+block in the card by the following (reduces the efficiency by 20%)
+
+################################################
+module Efficiency MuonTrackingEfficiency {
+  set InputArray ParticlePropagator/muons
+  set OutputArray muons
+
+  # set EfficiencyFormula {efficiency formula as a function of eta and pt}
+
+  # tracking efficiency formula for muons
+  set EfficiencyFormula {  0.8 *  (                                            (pt <= 0.1)   * (0.00) +
+                                             (abs(eta) <= 1.5) * (pt > 0.1   && pt <= 1.0)   * (0.75) +
+                                             (abs(eta) <= 1.5) * (pt > 1.0   && pt <= 1.0e3) * (0.99) +
+                                             (abs(eta) <= 1.5) * (pt > 1.0e3 )               * (0.99 * exp(0.5 - pt*5.0e-4)) +
+
+                           (abs(eta) > 1.5 && abs(eta) <= 2.5) * (pt > 0.1   && pt <= 1.0)    * (0.70) +
+                           (abs(eta) > 1.5 && abs(eta) <= 2.5) * (pt > 1.0   && pt <= 1.0e3)  * (0.98) +
+                           (abs(eta) > 1.5 && abs(eta) <= 2.5) * (pt > 1.0e3)                 * (0.98 * exp(0.5 - pt*5.0e-4)) +
+                           (abs(eta) > 2.5)                                                  * (0.00))}
+}
+################################################
+
+--> to decrease the muon efficiency we can replace the MuonMomentumSearing
+block in the card by the following (worsens the resolution by a factor 10)
+
+################################################
+module MomentumSmearing MuonMomentumSmearing {
+  set InputArray MuonTrackingEfficiency/muons
+  set OutputArray muons
+
+  # set ResolutionFormula {resolution formula as a function of eta and pt}
+
+  # resolution formula for muons
+  set ResolutionFormula { 2 * (              (abs(eta) <= 0.5) * (pt > 0.1) * sqrt(0.01^2 + pt^2*1.0e-4^2) +
+                           (abs(eta) > 0.5 && abs(eta) <= 1.5) * (pt > 0.1) * sqrt(0.015^2 + pt^2*1.5e-4^2) +
+                           (abs(eta) > 1.5 && abs(eta) <= 2.5) * (pt > 0.1) * sqrt(0.025^2 + pt^2*3.5e-4^2))}
+}
+################################################
+
+
+
+IV.4) --------------------------------------------------------------------------
+
+./DelphesHepMC cards/delphes_card_CMS_mod1.tcl pp_ll_bsm_mod1.root pp_ll_bsm.hepmc
+./DelphesHepMC cards/delphes_card_CMS_mod2.tcl pp_ll_bsm_mod2.root pp_ll_bsm.hepmc
+
+python examples/InvariantMass.py pp_ll_bsm_mod1.root histo_bsm_mod1.root
+python examples/InvariantMass.py pp_ll_bsm_mod2.root histo_bsm_mod2.root
+
+
+## compare effect of efficiency/resolution reduction
+
+root -l histo_bsm.root  histo_bsm_mod1.root histo_bsm_mod2.root
+((TH1F *)_file0->Get("mass_mumu_bsm"))->SetLineColor(kRed+1);
+((TH1F *)_file0->Get("mass_mumu_bsm"))->SetLineWidth(3);
+((TH1F *)_file1->Get("mass_mumu_bsm"))->SetLineColor(kBlue+1);
+((TH1F *)_file1->Get("mass_mumu_bsm"))->SetLineWidth(3);
+((TH1F *)_file2->Get("mass_mumu_bsm"))->SetLineColor(kGreen+2);
+((TH1F *)_file2->Get("mass_mumu_bsm"))->SetLineWidth(3);
+
+_file0->Get("mass_mumu_bsm")->Draw();
+_file1->Get("mass_mumu_bsm")->Draw("SAME");
+_file2->Get("mass_mumu_bsm")->Draw("SAME");

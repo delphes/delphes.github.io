@@ -1,0 +1,9 @@
+site_title: Delphes
+
+description: Delphes documentation
+
+source: https://github.com/delphes/delphes/tree/master
+issues: https://github.com/delphes/delphes/issues
+
+arxiv: https://arxiv.org/abs
+fastjet: https://fastjet.fr

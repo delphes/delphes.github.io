@@ -1,0 +1,12 @@
+standalone: true
+template: page.html
+
+reader: commonmark+definition_lists+gfm_auto_identifiers+pipe_tables
+writer: html
+
+highlight-style: null
+table-of-contents: true
+wrap: none
+
+metadata-file: metadata.yml
+filters: [filters.lua]
