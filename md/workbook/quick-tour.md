@@ -16,17 +16,17 @@ source /cvmfs/sft.cern.ch/lcg/views/LCG_105/x86_64-el9-gcc12-opt/setup.sh
 Finally, download and build Delphes:
 
 ```sh
-wget http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.0.tar.gz
-tar -zxf Delphes-3.5.0.tar.gz
+wget http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.1.tar.gz
+tar -zxf Delphes-3.5.1.tar.gz
 
-cd Delphes-3.5.0
+cd Delphes-3.5.1
 make -j 4
 ```
 
 Or, to install with CMake
 
 ```sh
-cd Delphes-3.5.0
+cd Delphes-3.5.1
 mkdir build
 cd build
 
