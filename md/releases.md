@@ -1,5 +1,24 @@
 # Releases
 
+4 February 2026: [Delphes 3.5.1](http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.1.tar.gz)
+
+- added multiple improvements to the track covariance code (thanks to Franco Bedeschi)
+- fixed behavior of ClusterCounting for high values of beta*gamma ([#158](https://github.com/delphes/delphes/pull/158))
+- added Kalman filter to track covariance ([#170](https://github.com/delphes/delphes/pull/170))
+- added pileup energy fraction computation for neutrals and towers from pileup and non-pileup vertices
+- added mass and external vertex constraints to vertex fitting
+- added support for insensitive regions to SimpleCalorimeter ([#168](https://github.com/delphes/delphes/pull/168))
+- added Durham e+e- kT clustering algorithm
+- added c-tagging support
+- added Pythia8 event weights
+- added CSC cluster modules, classes and a detector card for LLP studies ([#103](https://github.com/delphes/delphes/pull/103))
+- added ALEPH, DELPHI, L3, OPAL detector cards ([#140](https://github.com/delphes/delphes/pull/140), [#141](https://github.com/delphes/delphes/pull/141), [#142](https://github.com/delphes/delphes/pull/142), [#143](https://github.com/delphes/delphes/pull/143))
+- added FCC-hh Scenario II card with track covariance ([#127](https://github.com/delphes/delphes/pull/127))
+- updated IDEA card with dual readout + crystal calorimeter, optimized particle flow parameters, updated tracker geometry
+- updated ATLAS pileup card with more realistic track efficiency and smearing ([#124](https://github.com/delphes/delphes/pull/124))
+- updated FastJet library to 3.5.1 and FastJet Contrib library to 1.056
+- adapted Python code to Python 3
+
 3 June 2021: [Delphes 3.5.0](http://cp3.irmp.ucl.ac.be/downloads/Delphes-3.5.0.tar.gz)
 
 - fixed validation code
