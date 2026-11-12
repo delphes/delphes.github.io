@@ -5,7 +5,7 @@
 To successfully build Delphes the following prerequisite packages should be installed:
 
 - [ROOT Data Analysis Framework](https://root.cern/install)
-- [Tcl scripting language](https://www.tcl.tk)
+- [Tcl scripting language](https://www.tcl-lang.org)
 
 Then configure your environment for ROOT and GCC. If you are on lxplus, you can do it this way:
 

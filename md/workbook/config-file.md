@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The Delphes configuration file is based on [Tcl scripting language](https://www.tcl.tk/about/language.html).
+The Delphes configuration file is based on [Tcl scripting language](https://www.tcl-lang.org/about/language.html).
 
 [Tcl Fundamentals](http://www.beedub.com/book/3rd/Tclintro.pdf) chapter from [Practical Programming in Tcl and Tk](http://www.beedub.com/book/) describes the basic syntax rules for the Tcl scripting language.
 
-Delphes uses a safe subset of [Tcl 8.0.5](https://www.tcl.tk/man/tcl8.0/TclCmd/contents.htm) with 2 additional commands: `module` and `add`.
+Delphes uses a safe subset of [Tcl 8.0.5](https://www.tcl-lang.org/man/tcl8.0/TclCmd/contents.htm) with 2 additional commands: `module` and `add`.
 
 ## Basic Commands
 
